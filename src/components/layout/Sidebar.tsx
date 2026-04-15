@@ -29,6 +29,7 @@ const navSections: { title: string; items: NavItem[] }[] = [
     title: "Centrum",
     items: [
       { label: "Dashboard", href: "/", icon: "📊" },
+      { label: "Zgłoś błąd", href: "/bugs/new", icon: "🐛" },
     ],
   },
   {
@@ -56,12 +57,18 @@ const navSections: { title: string; items: NavItem[] }[] = [
     ],
   },
   {
+    title: "Sojusz",
+    items: [
+      { label: "Członkowie", href: "/alliance", icon: "👥" },
+    ],
+  },
+  {
     title: "Admin",
     items: [
       { label: "Panel admina", href: "/admin", icon: "⚙️", roles: ["admin"] },
       { label: "Użytkownicy", href: "/admin/users", icon: "👥", roles: ["admin", "leader"] },
       { label: "Logi", href: "/admin/logs", icon: "📋", roles: ["admin"] },
-      { label: "Błędy", href: "/admin/bugs", icon: "🐛", roles: ["admin"] },
+      { label: "Zarządzaj błędami", href: "/admin/bugs", icon: "🐛", roles: ["admin"] },
     ],
   },
 ];
@@ -94,7 +101,7 @@ function NavContent({ onItemClick }: { onItemClick?: () => void }) {
                   onClick={onItemClick}
                   className={cn(
                     "flex items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-accent",
-                    isActive && "bg-accent text-accent-foreground font-medium",
+                    isActive && "bg-accent text-accent-foreground font-medium border-l-2 border-primary",
                   )}
                 >
                   <span className="text-base">{item.icon}</span>
@@ -121,7 +128,7 @@ export function Sidebar() {
         <div className="flex items-center gap-2 px-4 py-4">
           <span className="text-2xl">🛸</span>
           <div>
-            <h1 className="text-sm font-bold leading-tight">PROJEKT UFO</h1>
+            <h1 className="text-sm font-bold leading-tight text-primary">PROJEKT UFO</h1>
             <p className="text-[10px] text-muted-foreground">UFOLODZY</p>
           </div>
         </div>

@@ -8,8 +8,8 @@ export function Navbar() {
   const { data: session } = useSession();
 
   return (
-    <header className="hidden md:flex items-center justify-between px-6 py-3 border-b bg-background">
-      <div className="text-sm text-muted-foreground">
+    <header className="hidden md:flex items-center justify-between px-6 py-3 border-b border-border/50 bg-background">
+      <div className="text-sm text-primary/70">
         Centrum Dowodzenia Sojuszu
       </div>
       <div className="flex items-center gap-4">
@@ -20,7 +20,7 @@ export function Navbar() {
               {(session.user as { displayName?: string; username?: string }).displayName ??
                 (session.user as { username?: string }).username}
             </span>
-            <Badge variant="outline" className="text-[10px]">
+            <Badge variant="outline" className="text-[10px] border-primary/30 text-primary">
               {(session.user as { role?: string }).role ?? "member"}
             </Badge>
           </div>
