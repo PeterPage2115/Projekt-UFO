@@ -55,7 +55,7 @@ export default async function DashboardPage() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen md:max-h-screen md:overflow-auto">
         <Navbar />
-        <main className="flex-1 p-6 pt-16 md:pt-6 space-y-6">
+        <main className="flex-1 p-4 sm:p-6 pt-16 md:pt-6 space-y-6">
           <div>
             <h1 className="text-2xl font-bold">🛸 Centrum Dowodzenia</h1>
             <p className="text-muted-foreground text-sm mt-1">
@@ -136,7 +136,7 @@ export default async function DashboardPage() {
                   {recentLogs.map((log) => (
                     <div
                       key={log.id}
-                      className="flex items-start gap-3 text-sm border-b pb-2 last:border-0"
+                      className="flex flex-wrap items-start gap-x-3 gap-y-1 text-sm border-b pb-2 last:border-0"
                     >
                       <Badge
                         variant={levelColors[log.level]}
@@ -147,7 +147,7 @@ export default async function DashboardPage() {
                       <Badge variant="outline" className="text-[10px] mt-0.5">
                         {log.category}
                       </Badge>
-                      <span className="flex-1">{log.message}</span>
+                      <span className="flex-1 min-w-0 break-words">{log.message}</span>
                       <span className="text-xs text-muted-foreground whitespace-nowrap">
                         {new Date(log.createdAt).toLocaleString("pl-PL")}
                       </span>

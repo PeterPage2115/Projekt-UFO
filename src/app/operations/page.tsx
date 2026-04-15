@@ -74,7 +74,7 @@ export default async function OperationsPage() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen md:max-h-screen md:overflow-auto">
         <Navbar />
-        <main className="flex-1 p-6 pt-16 md:pt-6 space-y-6">
+        <main className="flex-1 p-4 sm:p-6 pt-16 md:pt-6 space-y-6">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">⚔️ Operacje</h1>
             {canManage && (

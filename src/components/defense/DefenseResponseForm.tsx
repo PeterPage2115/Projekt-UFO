@@ -142,7 +142,7 @@ export function DefenseResponseForm({
       </div>
 
       {/* Source coordinates */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         <div className="space-y-1.5">
           <Label>Źródło X</Label>
           <Input
@@ -179,13 +179,13 @@ export function DefenseResponseForm({
       {tribe && (
         <div className="space-y-2">
           <Label>Jednostki</Label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {defUnits.map(unit => (
               <div key={unit.name} className="flex items-center gap-2">
                 <Input
                   type="number"
                   min={0}
-                  className="w-24"
+                  className="w-20 sm:w-24"
                   placeholder="0"
                   value={troopCounts[unit.name] || ''}
                   onChange={e =>

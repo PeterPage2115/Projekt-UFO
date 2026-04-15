@@ -11,7 +11,7 @@ export default async function TroopsPage() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen md:max-h-screen md:overflow-auto">
         <Navbar />
-        <main className="flex-1 p-6 pt-16 md:pt-6 space-y-6">
+        <main className="flex-1 p-4 sm:p-6 pt-16 md:pt-6 space-y-6">
           <TroopsPageContent />
         </main>
       </div>

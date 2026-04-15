@@ -400,7 +400,7 @@ export function DataBrowser() {
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
           <span className="text-muted-foreground">
             Strona {pagination.page} z {pagination.totalPages} (
             {pagination.total.toLocaleString()} wyników)
@@ -554,7 +554,7 @@ function PlayerDetail({
 }) {
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-4 text-sm">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
         <span className="font-medium text-lg">
           {tribeEmoji(player.tid)} {player.name}
         </span>

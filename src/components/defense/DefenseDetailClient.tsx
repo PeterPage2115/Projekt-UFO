@@ -158,11 +158,13 @@ export function DefenseDetailClient({ callId }: DefenseDetailClientProps) {
       {/* Call info */}
       <Card>
         <CardHeader>
-          <div className="flex items-start justify-between gap-2">
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="size-4 text-muted-foreground" />
-              ({call.targetX}|{call.targetY})
-              {call.targetVillageName && ` — ${call.targetVillageName}`}
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <CardTitle className="flex items-center gap-2 min-w-0">
+              <MapPin className="size-4 text-muted-foreground shrink-0" />
+              <span className="truncate">
+                ({call.targetX}|{call.targetY})
+                {call.targetVillageName && ` — ${call.targetVillageName}`}
+              </span>
             </CardTitle>
             <div className="flex items-center gap-1.5 shrink-0">
               <Badge variant="outline">{TYPE_LABELS[call.type] || call.type}</Badge>
@@ -177,7 +179,7 @@ export function DefenseDetailClient({ callId }: DefenseDetailClientProps) {
         </CardHeader>
         <CardContent className="space-y-4">
           {call.impactTime && (
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
               <Clock className="size-3.5 text-muted-foreground" />
               <span className="text-muted-foreground">Czas uderzenia:</span>
               <span className="font-mono">{new Date(call.impactTime).toLocaleString('pl-PL')}</span>

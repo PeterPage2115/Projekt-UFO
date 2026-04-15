@@ -249,7 +249,7 @@ export function TroopReportForm({ initialData, onSuccess }: TroopReportFormProps
                   <Input
                     type="number"
                     min="0"
-                    className="w-28"
+                    className="w-24 sm:w-28"
                     placeholder="0"
                     value={unitCounts[unit.name] ?? ""}
                     onChange={(e) => handleUnitChange(unit.name, e.target.value)}

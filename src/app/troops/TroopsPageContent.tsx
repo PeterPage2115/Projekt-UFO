@@ -112,7 +112,7 @@ export function TroopsPageContent() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">🪖 Raporty wojsk</h1>
           <p className="text-muted-foreground text-sm mt-1">
@@ -153,7 +153,7 @@ export function TroopsPageContent() {
               return (
                 <Card key={report.id}>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex flex-wrap items-center gap-2">
                       <span>
                         {report.villageName || `(${report.villageX}|${report.villageY})`}
                       </span>

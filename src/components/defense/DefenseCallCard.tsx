@@ -77,7 +77,7 @@ export function DefenseCallCard({ call, isOfficer }: DefenseCallCardProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <Shield className="size-4 shrink-0 text-blue-400" />
             <CardTitle className="truncate">
@@ -99,7 +99,7 @@ export function DefenseCallCard({ call, isOfficer }: DefenseCallCardProps) {
 
       <CardContent className="space-y-3">
         {call.impactTime && (
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
             <Clock className="size-3.5 text-muted-foreground" />
             <span className="text-muted-foreground">Uderzenie:</span>
             <span className="font-mono text-xs">

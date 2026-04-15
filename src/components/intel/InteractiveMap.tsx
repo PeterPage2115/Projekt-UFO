@@ -366,14 +366,14 @@ export default function InteractiveMap() {
                   placeholder="X"
                   value={locateX}
                   onChange={(e) => setLocateX(e.target.value)}
-                  className="h-8 text-sm w-16"
+                  className="h-8 text-sm w-14 sm:w-16"
                 />
                 <Input
                   type="number"
                   placeholder="Y"
                   value={locateY}
                   onChange={(e) => setLocateY(e.target.value)}
-                  className="h-8 text-sm w-16"
+                  className="h-8 text-sm w-14 sm:w-16"
                 />
                 <Button
                   size="sm"
@@ -392,7 +392,7 @@ export default function InteractiveMap() {
       {/* Map */}
       <div
         className="rounded-lg border overflow-hidden relative"
-        style={{ height: "calc(100vh - 300px)", minHeight: "400px" }}
+        style={{ height: "calc(100vh - 300px)", minHeight: "350px" }}
       >
         {loading ? (
           <div className="h-full flex items-center justify-center text-muted-foreground">
