@@ -1,20 +1,25 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Navbar } from "@/components/layout/Navbar";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { requireAuth } from "@/lib/auth/guards";
+import { requireAdmin } from "@/lib/auth/guards";
 import { db } from "@/lib/db";
 import {
   users,
   operations,
   defenseCalls,
   snapshots,
+  bugReports,
   systemLogs,
 } from "@/lib/db/schema";
 import { eq, desc, count } from "drizzle-orm";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-export default async function DashboardPage() {
-  await requireAuth();
+export default async function AdminPage() {
+  await requireAdmin();
+
+  const totalUsers = db.select({ count: count() }).from(users).get()!.count;
 
   const activeOps = db
     .select({ count: count() })
@@ -28,7 +33,10 @@ export default async function DashboardPage() {
     .where(eq(defenseCalls.status, "active"))
     .get()!.count;
 
-  const totalUsers = db.select({ count: count() }).from(users).get()!.count;
+  const totalSnapshots = db
+    .select({ count: count() })
+    .from(snapshots)
+    .get()!.count;
 
   const lastSnapshot = db
     .select()
@@ -37,14 +45,20 @@ export default async function DashboardPage() {
     .limit(1)
     .get();
 
+  const openBugs = db
+    .select({ count: count() })
+    .from(bugReports)
+    .where(eq(bugReports.status, "new"))
+    .get()!.count;
+
   const recentLogs = db
     .select()
     .from(systemLogs)
     .orderBy(desc(systemLogs.id))
-    .limit(10)
+    .limit(5)
     .all();
 
-  const levelColors: Record<string, "default" | "secondary" | "destructive"> = {
+  const levelColors: Record<string, string> = {
     info: "default",
     warn: "secondary",
     error: "destructive",
@@ -57,13 +71,25 @@ export default async function DashboardPage() {
         <Navbar />
         <main className="flex-1 p-6 pt-16 md:pt-6 space-y-6">
           <div>
-            <h1 className="text-2xl font-bold">🛸 Centrum Dowodzenia</h1>
+            <h1 className="text-2xl font-bold">⚙️ Panel Administracji</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Sojusz UFOLODZY — Travian RoF x3
+              Zarządzanie systemem Projekt UFO
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* Stats Grid */}
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  👥 Użytkownicy
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{totalUsers}</div>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -78,7 +104,7 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  🛡️ Wezwania obrony
+                  🛡️ Obrona (aktywne)
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -89,47 +115,59 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  👥 Członkowie
+                  📊 Snapshoty
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{totalUsers}</div>
+                <div className="text-2xl font-bold">{totalSnapshots}</div>
+                {lastSnapshot && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Ostatni:{" "}
+                    {new Date(lastSnapshot.fetchedAt).toLocaleString("pl-PL")}
+                  </p>
+                )}
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  📊 Ostatni snapshot
+                  🐛 Otwarte błędy
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {lastSnapshot ? (
-                  <>
-                    <div className="text-2xl font-bold">
-                      {lastSnapshot.villageCount?.toLocaleString("pl-PL") ?? "—"}
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      wiosek •{" "}
-                      {new Date(lastSnapshot.fetchedAt).toLocaleString("pl-PL")}
-                    </p>
-                  </>
-                ) : (
-                  <div className="text-2xl font-bold">—</div>
-                )}
+                <div className="text-2xl font-bold">{openBugs}</div>
               </CardContent>
             </Card>
           </div>
 
+          {/* Quick Actions */}
           <Card>
             <CardHeader>
-              <CardTitle>Ostatnia aktywność</CardTitle>
+              <CardTitle>Szybkie akcje</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-wrap gap-3">
+              <Link href="/admin/users">
+                <Button variant="outline">👥 Użytkownicy</Button>
+              </Link>
+              <Link href="/admin/logs">
+                <Button variant="outline">📋 Logi systemowe</Button>
+              </Link>
+              <Link href="/admin/bugs">
+                <Button variant="outline">🐛 Zgłoszenia błędów</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Recent Logs */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Ostatnie logi</CardTitle>
             </CardHeader>
             <CardContent>
               {recentLogs.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  Brak danych — system właśnie wystartował. Skonfiguruj map.sql
-                  collector, aby rozpocząć zbieranie danych.
+                  Brak logów w systemie.
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -139,7 +177,12 @@ export default async function DashboardPage() {
                       className="flex items-start gap-3 text-sm border-b pb-2 last:border-0"
                     >
                       <Badge
-                        variant={levelColors[log.level]}
+                        variant={
+                          levelColors[log.level] as
+                            | "default"
+                            | "secondary"
+                            | "destructive"
+                        }
                         className="text-[10px] mt-0.5"
                       >
                         {log.level}
