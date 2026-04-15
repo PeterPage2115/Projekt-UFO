@@ -1,0 +1,13 @@
+services:
+  ufo:
+    build: .
+    container_name: projekt-ufo-dev
+    ports:
+      - "3000:3000"
+    env_file: .env
+    volumes:
+      - ufo-data:/app/data
+
+volumes:
+  ufo-data:
+    name: projekt-ufo-data-dev

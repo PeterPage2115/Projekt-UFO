@@ -1,0 +1,19 @@
+services:
+  ufo:
+    image: ghcr.io/peterpage2115/projekt-ufo:latest
+    container_name: projekt-ufo
+    restart: unless-stopped
+    ports:
+      - "${UFO_PORT:-3000}:3000"
+    env_file: .env
+    volumes:
+      - ufo-data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  ufo-data:
+    name: projekt-ufo-data
