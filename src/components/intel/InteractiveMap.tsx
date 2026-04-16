@@ -339,6 +339,8 @@ export default function InteractiveMap() {
                 value={filterMinPop}
                 onChange={(e) => setFilterMinPop(e.target.value)}
                 className="h-8 text-sm"
+                min={0}
+                max={100000}
               />
             </div>
             <div>
@@ -367,6 +369,8 @@ export default function InteractiveMap() {
                   value={locateX}
                   onChange={(e) => setLocateX(e.target.value)}
                   className="h-8 text-sm w-14 sm:w-16"
+                  min={-200}
+                  max={200}
                 />
                 <Input
                   type="number"
@@ -374,6 +378,8 @@ export default function InteractiveMap() {
                   value={locateY}
                   onChange={(e) => setLocateY(e.target.value)}
                   className="h-8 text-sm w-14 sm:w-16"
+                  min={-200}
+                  max={200}
                 />
                 <Button
                   size="sm"

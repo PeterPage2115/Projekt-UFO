@@ -58,11 +58,18 @@ interface Operation {
   updatedAt: string | null;
 }
 
+interface User {
+  id: string;
+  username: string;
+  displayName: string | null;
+}
+
 interface OperationDetailProps {
   operation: Operation;
   targets: Target[];
   canManage: boolean;
   currentUserId: string;
+  users: User[];
 }
 
 // --- Helpers ---
@@ -114,6 +121,7 @@ export function OperationDetail({
   targets,
   canManage,
   currentUserId,
+  users,
 }: OperationDetailProps) {
   const router = useRouter();
   const [countdown, setCountdown] = useState(
@@ -311,6 +319,8 @@ export function OperationDetail({
                     required
                     className="w-20"
                     placeholder="X"
+                    min={-200}
+                    max={200}
                   />
                 </div>
                 <div className="space-y-1">
@@ -322,6 +332,8 @@ export function OperationDetail({
                     required
                     className="w-20"
                     placeholder="Y"
+                    min={-200}
+                    max={200}
                   />
                 </div>
                 <Button type="submit" size="sm">
@@ -412,14 +424,20 @@ export function OperationDetail({
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="assignUserId">User ID</Label>
-                    <Input
+                    <Label htmlFor="assignUserId">Gracz</Label>
+                    <select
                       id="assignUserId"
                       name="userId"
                       required
-                      className="w-40"
-                      placeholder="ID gracza"
-                    />
+                      className="h-8 w-40 min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                      <option value="">Wybierz gracza</option>
+                      {users.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.displayName || u.username}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="assignSourceX">Źr. X</Label>
@@ -428,6 +446,8 @@ export function OperationDetail({
                       name="sourceX"
                       type="number"
                       className="w-20"
+                      min={-200}
+                      max={200}
                     />
                   </div>
                   <div className="space-y-1">
@@ -437,6 +457,8 @@ export function OperationDetail({
                       name="sourceY"
                       type="number"
                       className="w-20"
+                      min={-200}
+                      max={200}
                     />
                   </div>
                   <div className="space-y-1">
@@ -447,6 +469,8 @@ export function OperationDetail({
                       type="number"
                       step="any"
                       className="w-24"
+                      min={1}
+                      max={100}
                     />
                   </div>
                   <div className="space-y-1">
@@ -457,6 +481,8 @@ export function OperationDetail({
                       type="number"
                       className="w-20"
                       defaultValue="1"
+                      min={1}
+                      max={20}
                     />
                   </div>
                   <Button type="submit" size="sm">

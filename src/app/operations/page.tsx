@@ -89,7 +89,16 @@ export default async function OperationsPage() {
 
           {opsWithCounts.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
-              <p className="text-lg">Brak operacji</p>
+              <p className="text-lg">
+                {canManage
+                  ? "Brak operacji — utwórz nową operację"
+                  : "Nie masz jeszcze żadnych przydziałów"}
+              </p>
+              {!canManage && (
+                <p className="text-sm mt-2">
+                  Lider lub oficer musi Cię przypisać do operacji, abyś mógł ją zobaczyć.
+                </p>
+              )}
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

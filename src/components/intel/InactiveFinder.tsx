@@ -154,6 +154,8 @@ export function InactiveFinder() {
                 value={fromX}
                 onChange={(e) => setFromX(e.target.value)}
                 className="h-8 text-sm"
+                min={-200}
+                max={200}
               />
             </div>
             <div>
@@ -166,6 +168,8 @@ export function InactiveFinder() {
                 value={fromY}
                 onChange={(e) => setFromY(e.target.value)}
                 className="h-8 text-sm"
+                min={-200}
+                max={200}
               />
             </div>
             <div>
@@ -178,6 +182,8 @@ export function InactiveFinder() {
                 value={maxDistance}
                 onChange={(e) => setMaxDistance(e.target.value)}
                 className="h-8 text-sm"
+                min={0}
+                max={400}
               />
             </div>
             <div>
@@ -190,6 +196,8 @@ export function InactiveFinder() {
                 value={maxPop}
                 onChange={(e) => setMaxPop(e.target.value)}
                 className="h-8 text-sm"
+                min={0}
+                max={100000}
               />
             </div>
             <div>
@@ -202,6 +210,8 @@ export function InactiveFinder() {
                 value={minVillages}
                 onChange={(e) => setMinVillages(e.target.value)}
                 className="h-8 text-sm"
+                min={0}
+                max={100}
               />
             </div>
             <div>

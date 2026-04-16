@@ -11,7 +11,7 @@ import {
   snapshots,
   systemLogs,
 } from "@/lib/db/schema";
-import { eq, desc, count, ne } from "drizzle-orm";
+import { eq, desc, count, sql } from "drizzle-orm";
 
 export default async function DashboardPage() {
   const session = await requireAuth();
@@ -40,7 +40,9 @@ export default async function DashboardPage() {
 
   const recentLogs = isPrivileged
     ? db.select().from(systemLogs).orderBy(desc(systemLogs.id)).limit(10).all()
-    : db.select().from(systemLogs).where(ne(systemLogs.category, 'auth')).orderBy(desc(systemLogs.id)).limit(10).all();
+    : db.select().from(systemLogs).where(
+        sql`${systemLogs.category} IN ('operation', 'defense')`
+      ).orderBy(desc(systemLogs.id)).limit(10).all();
 
   const levelColors: Record<string, "default" | "secondary" | "destructive"> = {
     info: "default",
@@ -126,8 +128,9 @@ export default async function DashboardPage() {
             <CardContent>
               {recentLogs.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  Brak danych — system właśnie wystartował. Skonfiguruj map.sql
-                  collector, aby rozpocząć zbieranie danych.
+                  {isPrivileged
+                    ? "Brak danych — system właśnie wystartował. Skonfiguruj map.sql collector, aby rozpocząć zbieranie danych."
+                    : "Brak aktywności operacyjnej. Dołącz do operacji lub odpowiedz na wezwanie obrony, aby zobaczyć aktywność."}
                 </p>
               ) : (
                 <div className="space-y-2">

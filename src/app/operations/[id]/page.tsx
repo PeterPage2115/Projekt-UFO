@@ -81,6 +81,16 @@ export default async function OperationPage({
     .where(eq(operationAssignments.operationId, id))
     .all();
 
+  // Fetch all users for assignment dropdown
+  const allUsers = db
+    .select({
+      id: users.id,
+      username: users.username,
+      displayName: users.displayName,
+    })
+    .from(users)
+    .all();
+
   // Group assignments by target
   const targetsWithAssignments = targets.map((target) => ({
     id: target.id,
@@ -120,6 +130,7 @@ export default async function OperationPage({
             targets={targetsWithAssignments}
             canManage={canManage}
             currentUserId={session.user.id}
+            users={allUsers}
           />
         </main>
       </div>
