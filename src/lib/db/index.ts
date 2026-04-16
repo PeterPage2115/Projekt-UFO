@@ -200,5 +200,36 @@ function runMigrations(db: InstanceType<typeof Database>) {
 
 runMigrations(sqlite);
 
+// Check if snapshots exist and auto-fetch if needed
+function autoFetchIfNeeded() {
+  const result = sqlite.prepare('SELECT COUNT(*) as count FROM snapshots').get() as { count: number };
+  if (result.count === 0) {
+    console.log('[db] No snapshots found, scheduling auto-fetch...');
+    // Use dynamic import to avoid circular dependency
+    setTimeout(async () => {
+      try {
+        const { collectAndStore } = await import('../map-sql/collector');
+        console.log('[db] Auto-fetching initial map.sql snapshot...');
+        const result = await collectAndStore();
+        console.log(`[db] Auto-fetch complete: snapshot #${result.snapshotId}, ${result.villageCount} villages`);
+      } catch (error) {
+        console.error('[db] Auto-fetch failed:', error instanceof Error ? error.message : error);
+      }
+    }, 3000);
+  }
+
+  // Start the scheduler
+  setTimeout(async () => {
+    try {
+      const { startScheduler } = await import('../map-sql/scheduler');
+      startScheduler();
+    } catch (error) {
+      console.error('[db] Failed to start scheduler:', error instanceof Error ? error.message : error);
+    }
+  }, 5000);
+}
+
+autoFetchIfNeeded();
+
 export const db = drizzle(sqlite, { schema });
 export type Database = typeof db;

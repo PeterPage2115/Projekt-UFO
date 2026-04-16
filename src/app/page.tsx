@@ -11,10 +11,11 @@ import {
   snapshots,
   systemLogs,
 } from "@/lib/db/schema";
-import { eq, desc, count } from "drizzle-orm";
+import { eq, desc, count, ne } from "drizzle-orm";
 
 export default async function DashboardPage() {
-  await requireAuth();
+  const session = await requireAuth();
+  const isPrivileged = ['admin', 'leader'].includes(session.user.role);
 
   const activeOps = db
     .select({ count: count() })
@@ -37,12 +38,9 @@ export default async function DashboardPage() {
     .limit(1)
     .get();
 
-  const recentLogs = db
-    .select()
-    .from(systemLogs)
-    .orderBy(desc(systemLogs.id))
-    .limit(10)
-    .all();
+  const recentLogs = isPrivileged
+    ? db.select().from(systemLogs).orderBy(desc(systemLogs.id)).limit(10).all()
+    : db.select().from(systemLogs).where(ne(systemLogs.category, 'auth')).orderBy(desc(systemLogs.id)).limit(10).all();
 
   const levelColors: Record<string, "default" | "secondary" | "destructive"> = {
     info: "default",

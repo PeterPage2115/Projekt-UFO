@@ -27,6 +27,7 @@ declare module '@auth/core/jwt' {
   interface JWT {
     role: UserRole;
     username: string;
+    displayName?: string | null;
   }
 }
 
@@ -107,6 +108,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.role = (user as { role: UserRole }).role;
         token.username = (user as { username: string }).username;
+        token.displayName = user.name ?? null;
       }
       return token;
     },
@@ -114,6 +116,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.id = token.sub!;
       session.user.role = token.role;
       session.user.username = token.username;
+      session.user.displayName = token.displayName ?? null;
       return session;
     },
   },
