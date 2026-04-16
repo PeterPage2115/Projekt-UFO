@@ -9,6 +9,15 @@ import { TRIBES, type UnitDef, type UnitType } from "@/lib/game/tribes";
 
 const ROF_TRIBE_IDS = [1, 2, 3, 6, 7, 8] as const;
 
+const TRIBE_CDN_NAMES: Record<number, string> = {
+  1: "roman",
+  2: "teuton",
+  3: "gaul",
+  6: "egyptian",
+  7: "hun",
+  8: "spartan",
+};
+
 const UNIT_TYPE_LABELS: Record<string, string> = {
   inf: "Piechota",
   cav: "Kawaleria",
@@ -236,9 +245,9 @@ export function TrainingCalculator({ serverSpeed }: { serverSpeed: number }) {
                           <td className="py-2 pr-2 font-medium">
                             <div className="flex items-center gap-2">
                               <img
-                                src={`https://gpack.travian.com/gp/merged/unit_small_illu_${tribeId}_${r.index + 1}.png`}
+                                src={`https://cdn.legends.travian.com/gpack/417.4/img_ltr/global/units/${TRIBE_CDN_NAMES[tribeId] ?? "roman"}/full/t${r.index + 1}.png`}
                                 alt={r.unit.namePl ?? r.unit.name}
-                                className="w-5 h-5"
+                                className="w-6 h-6 object-contain"
                                 loading="lazy"
                               />
                               <span>{r.unit.namePl ?? r.unit.name}</span>

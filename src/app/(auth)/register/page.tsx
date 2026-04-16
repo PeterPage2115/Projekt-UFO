@@ -56,7 +56,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[radial-gradient(ellipse_at_center,oklch(0.2_0.03_60),oklch(0.12_0.02_50))]">
+    <div className="w-full min-h-screen flex items-center justify-center p-4 bg-[radial-gradient(ellipse_at_center,oklch(0.2_0.03_60),oklch(0.12_0.02_50))]">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="text-6xl mb-3">🛸</div>
